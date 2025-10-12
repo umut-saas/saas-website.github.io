@@ -1,5 +1,7 @@
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, render_template_string, render_template, jsonify
 from datetime import datetime
+
+
 
 app = Flask(__name__)
 
@@ -80,6 +82,8 @@ TRANSLATIONS = {
         "js_selected_lang": "Dil seçildi: ",
         "download_filename": "urun-aciklama.txt",
     },
+
+
     "en": {
         "app_name": "AI ProductSEO",
         "tagline": "Product descriptions & SEO automation",
@@ -155,6 +159,8 @@ TRANSLATIONS = {
         "js_selected_lang": "Language selected: ",
         "download_filename": "product-description.txt",
     },
+
+
     "de": {
         "app_name": "AI ProduktSEO",
         "tagline": "Produktbeschreibungen & SEO-Automatisierung",
@@ -207,7 +213,7 @@ TRANSLATIONS = {
         "contact_title": "Kontakt",
         "privacy_title": "Datenschutz",
         "privacy_p": "Wir legen Wert auf Privatsphäre. Daten werden nur für den Service genutzt und nicht weitergegeben. SSL und sichere Speicherung werden angewandt.",
-        "termsofuse_title": "Nutzungsbedingungen",
+        "termsofuse_title": "Nutzungsbedingungen", 
         "termsofuse_p": "1. Dieser Inhalt darf nur von der Person verwendet werden, die ihn gekauft hat.\n2. Der Inhalt kann in persönliche Projekte, E-Commerce-Seiten und Social-Media-Konten integriert werden.\n3. Gekaufte Inhalte dürfen nicht weiterverkauft, vervielfältigt oder mit Dritten geteilt werden.\n4. Kostenlose Demodateien dienen nur zu Informationszwecken. Sie sind nicht für die kommerzielle Nutzung oder Einkommensgenerierung geeignet.\n5. Durch die Nutzung des Produkts stimmt der Benutzer diesen Bedingungen zu.",
         "refund_title": "Rückgabebedingungen",
         "refund_p1": "Dieses Produkt wird digital geliefert.",
@@ -230,6 +236,8 @@ TRANSLATIONS = {
         "js_selected_lang": "Sprache gewählt: ",
         "download_filename": "produkt-beschreibung.txt",
     },
+
+
     "ru": {
         "app_name": "AI ProductSEO",
         "tagline": "Описания товаров и SEO-автоматизация",
@@ -305,7 +313,13 @@ TRANSLATIONS = {
         "js_selected_lang": "Выбран язык: ",
         "download_filename": "opisanie-tovara.txt",
     },
+
+
+
+
 }
+
+
 
 def get_lang():
     lang = (request.args.get("lang")
@@ -315,22 +329,24 @@ def get_lang():
 
 def make_demo_result(product_name: str, lang: str):
     if lang == "en":
-        title = "E-book, Podcast Series, Online Course"
-        description = ("This E-book, Podcast Series, and Online Course are carefully designed to help you enhance your skills and expand your knowledge. Provides a practical, informative, and creative learning experience.")
+        title = f"E-book, Podcast Series, Online Course"
+        description = (f"This E-book, Podcast Series, and Online Course are carefully designed to help you enhance your skills and expand your knowledge. Provides a practical, informative, and creative learning experience.")
         tags = "E-book, Online Course, Podcast, Education, Learning"
     elif lang == "de":
-        title = "E-Book, Podcast-Serie, Online-Kurs"
-        description = ("Dieses E-Book, die Podcast-Serie und der Online-Kurs sind sorgfältig darauf ausgelegt, Ihre Fähigkeiten zu verbessern und Ihr Wissen zu erweitern. Bietet ein praktisches, informatives und kreatives Lernerlebnis.")
+        title = f"E-Book, Podcast-Serie, Online-Kurs"
+        description = (f"Dieses E-Book, die Podcast-Serie und der Online-Kurs sind sorgfältig darauf ausgelegt, Ihre Fähigkeiten zu verbessern und Ihr Wissen zu erweitern. Bietet ein praktisches, informatives und kreatives Lernerlebnis.")
         tags = "E-Book, Online-Kurs, Podcast, Bildung, Lernen"
     elif lang == "ru":
-        title = "Электронная книга, Серия подкастов, Онлайн-курс"
-        description = ("Эта электронная книга, серия подкастов и онлайн-курс тщательно разработаны, чтобы помочь вам развить навыки и расширить знания. Обеспечивает практический, информативный и творческий опыт обучения.")
+        title = f"Электронная книга, Серия подкастов, Онлайн-курс"
+        description = (f"Эта электронная книга, серия подкастов и онлайн-курс тщательно разработаны, чтобы помочь вам развить навыки и расширить знания. Обеспечивает практический, информативный и творческий опыт обучения.")
         tags = "Электронная книга, Онлайн-курс, Подкаст, Образование, Обучение"
-    else:
-        title = "E-kitap, Podcast Serisi, Online Kurs"
-        description = ("Bu E-kitap, Podcast Serisi ve Online Kurs becerilerinizi geliştirmek ve bilgilerinizi artırmak için özenle hazırlanmıştır. Pratik, bilgilendirici ve yaratıcı öğrenme deneyimi sunar.")
+    else:  # tr
+        title = f"E-kitap, Podcast Serisi, Online Kurs"
+        description = (f"Bu E-kitap, Podcast Serisi ve Online Kurs becerilerinizi geliştirmek ve bilgilerinizi artırmak için özenle hazırlanmıştır. Pratik, bilgilendirici ve yaratıcı öğrenme deneyimi sunar.")
         tags = "E-kitap, Online Kurs, Podcast, Eğitim, Öğrenme"
     return {"product_name": product_name, "title": title, "description": description, "tags": tags}
+
+
 
 @app.post("/set-language")
 def set_language():
@@ -343,29 +359,19 @@ def set_language():
     resp.set_cookie("lang", lang, max_age=60*60*24*365, samesite="Lax")
     return resp
 
-@app.post("/chat")
-def chat():
-    """AI chat için demo endpoint (echo + timestamp)."""
-    data = request.get_json(silent=True) or {}
-    msg = (data.get("message") or "").strip()
-    if not msg:
-        return jsonify(reply="(boş mesaj)"), 200
-    return jsonify(reply=f"Demo cevap: '{msg}' alındı. ({datetime.now().strftime('%H:%M:%S')})"), 200
-
-@app.get("/")
+@app.route("/", methods=["GET"])
 def index():
     lang = get_lang()
     t = TRANSLATIONS[lang]
     return render_template("index.html", t=t, lang=lang, year=datetime.now().year)
 
-@app.post("/generate")
+@app.route("/generate", methods=["POST"])
 def generate():
     lang = get_lang()
     t = TRANSLATIONS[lang]
-    product_name = (request.form.get("product_name") or "E-kitap, Podcast Serisi, Online Kurs").strip()
+    product_name = request.form.get("product_name", "E-kitap, Podcast Serisi, Online Kurs").strip()
     result = make_demo_result(product_name, lang)
     return render_template("index.html", result=result, t=t, lang=lang, year=datetime.now().year)
 
 if __name__ == "__main__":
-    # Prod ortamında WSGI (gunicorn/uwsgi) tercih edin.
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    app.run(debug=True, host="0.0.0.0")
