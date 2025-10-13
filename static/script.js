@@ -1,263 +1,326 @@
 <script>
 
+const aiIcon = document.getElementById('aiChatIcon');
+const aiBox = document.getElementById('aiChatBox');
+const aiClose = document.getElementById('aiChatClose');
+const aiHeader = document.getElementById('aiChatHeader');
+const aiInput = document.getElementById('chatInput');
 
-// static/script.js  (Cleaned / unified version)
-// Kullanım: index.html içinde <script src="{{ url_for('static', filename='script.js') }}"></script>
-// ÖNEMLİ: Bu dosyada Jinja ifadeleri ({{ ... }}) yok. index.html içinde window.T ve window.LANG tanımlı olmalı.
 
-(function () {
-  "use strict";
 
-  // --- Güvenlik: window.T ve LANG olmalı ---
-  const T = window.T || {};        // çeviri sözlüğü index.html tarafından ekleniyor
-  const LANG = window.LANG || document.documentElement.lang || "tr";
 
-  // DOM hazır olduğunda çalıştır
-  document.addEventListener("DOMContentLoaded", () => {
-    // --- ELEMENTLER (guard ile güvenli alım) ---
-    const aiIcon = document.getElementById("aiChatIcon");
-    const aiBox = document.getElementById("aiChatBox");
-    const aiClose = document.getElementById("aiChatClose");
-    const aiHeader = document.getElementById("aiChatHeader");
-    const chatMessages = document.getElementById("chatMessages");
-    const chatInput = document.getElementById("chatInput");
-    const sendChatBtn = document.getElementById("sendChat");
 
-    const form = document.getElementById("productForm");
-    const productInput = document.getElementById("productInput");
-    const btnCreate = document.querySelector(".btn-create");
-    const resultBox = document.getElementById("resultBox"); // olabilir veya olmayabilir
-    const languageSelect = document.getElementById("languageSelect");
 
-    // --- DİLSEL ÇEVİRİ (AI chat header & placeholder) ---
-    const translations = {
-      tr: { header: "AI Canlı Destek", placeholder: "Sorunuzu yazın...", send: "Gönder" },
-      en: { header: "AI Live Support", placeholder: "Type your question...", send: "Send" },
-      de: { header: "KI Live-Support", placeholder: "Ihre Frage hier eingeben...", send: "Senden" },
-      ru: { header: "ИИ Поддержка", placeholder: "Введите ваш вопрос...", send: "Отправить" }
-    };
+// Dil algılama
+let lang = document.documentElement.lang || 'tr'; // Sayfanın <html lang="xx"> etiketi üzerinden
 
-    const langKey = (typeof LANG === "string" && LANG.slice(0,2)) || "tr";
-    if (aiHeader && chatInput && translations[langKey]) {
-      // aiHeader'in ilk metin düğümü varsa güncelle (görsel span da olduğunda güvenli ayar)
-      // aiHeader genelde HTML içi "AI Canlı Destek <span ...>" şeklinde olduğu için text node'u güncelliyoruz
-      if (aiHeader.childNodes && aiHeader.childNodes.length > 0) {
-        // İlk node mu metin düğümü değilse (ör. <span>) fallback: innerText başına ekle
-        if (aiHeader.childNodes[0].nodeType === Node.TEXT_NODE) {
-          aiHeader.childNodes[0].nodeValue = translations[langKey].header + " ";
-        } else {
-          aiHeader.innerText = translations[langKey].header;
-        }
-      } else {
-        aiHeader.innerText = translations[langKey].header;
-      }
-      chatInput.placeholder = translations[langKey].placeholder;
+let translations = {
+  tr: { header: "AI Canlı Destek", placeholder: "Sorunuzu yazın...", send: "Gönder" },
+  en: { header: "AI Live Support", placeholder: "Type your question...", send: "Send" },
+  de: { header: "KI Live-Support", placeholder: "Ihre Frage hier eingeben...", send: "Senden" },
+  ru: { header: "ИИ Поддержка", placeholder: "Введите ваш вопрос...", send: "Отправить" }
+};
+
+
+
+// Çevirileri uygula
+if(translations[lang]){
+  aiHeader.childNodes[0].nodeValue = translations[lang].header;
+  aiInput.placeholder = translations[lang].placeholder;
+  document.getElementById('sendChat').innerText = translations[lang].send;
+}
+
+
+
+// Chat aç/kapa
+aiIcon.addEventListener('click', () => {
+  aiBox.style.display = (aiBox.style.display === 'flex') ? 'none' : 'flex';
+  aiIcon.style.transform = aiBox.style.display === 'flex' ? 'scale(0.9)' : 'scale(1)';
+});
+aiClose.addEventListener('click', () => {
+  aiBox.style.display = 'none';
+  aiIcon.style.transform = 'scale(1)';
+});
+
+
+
+// Chat gönderme (backend ile değiştirilecek örnek)
+document.getElementById('sendChat').addEventListener('click', async () => {
+  const input = document.getElementById('chatInput');
+  if(!input.value) return;
+  const chatMessages = document.getElementById('chatMessages');
+  chatMessages.innerHTML += `<div style="margin:5px 0;"><b>Sen:</b> ${input.value}</div>`;
+  
+  // Örnek AI cevabı
+  const response = await fetch('/chat', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({message: input.value})
+  }).then(res => res.json());
+
+  chatMessages.innerHTML += `<div style="margin:5px 0; color:#1e90ff;"><b>AI:</b> ${response.reply}</div>`;
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+  input.value = '';
+});
+
+
+
+
+
+
+
+
+
+
+
+
+const form = document.getElementById("productForm");
+const btn = document.querySelector(".btn-create");
+
+btn.addEventListener("click", function() {
+    const input = document.getElementById("productInput");
+    // Eğer boşsa, sessizce formu gönderme
+    if (!input.value.trim()) {
+        return; // Hiçbir mesaj veya uyarı gösterilmez
+    } else {
+        form.submit(); // Doluysa formu gönder
     }
-    if (sendChatBtn && translations[langKey]) sendChatBtn.innerText = translations[langKey].send;
+});
 
-    // --- AI CHAT Open/Close ---
-    if (aiIcon && aiBox) {
-      aiIcon.addEventListener("click", () => {
-        const isOpen = getComputedStyle(aiBox).display === "flex";
-        aiBox.style.display = isOpen ? "none" : "flex";
-        aiIcon.style.transform = isOpen ? "scale(1)" : "scale(0.9)";
-      });
-    }
-    if (aiClose && aiBox && aiIcon) {
-      aiClose.addEventListener("click", () => {
-        aiBox.style.display = "none";
-        aiIcon.style.transform = "scale(1)";
-      });
-    }
 
-    // --- Chat Gönderme (backend /chat endpoint'e POST eder) ---
-    if (sendChatBtn && chatInput && chatMessages) {
-      sendChatBtn.addEventListener("click", async () => {
-        const text = chatInput.value.trim();
-        if (!text) return;
-        appendMessage("Siz", text);
-        chatInput.value = "";
-        try {
-          const resp = await fetch("/chat", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ message: text })
-          });
-          if (!resp.ok) throw new Error("HTTP " + resp.status);
-          const data = await resp.json();
-          appendMessage("AI", data.reply || "(no reply)");
-        } catch (err) {
-          appendMessage("AI", "(Sunucu hatası veya ağ hatası)");
-          console.error("chat error:", err);
-        }
-      });
-    }
 
-    function appendMessage(sender, text) {
-      if (!chatMessages) return;
-      const d = document.createElement("div");
-      d.style.margin = "6px 0";
-      if (sender === "AI") {
-        d.innerHTML = `<b>${sender}:</b> <span style="color:#1e90ff">${escapeHtml(text)}</span>`;
-      } else {
-        d.innerHTML = `<b>${sender}:</b> ${escapeHtml(text)}`;
-      }
-      chatMessages.appendChild(d);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
 
-    // basit HTML escape
-    function escapeHtml(str) {
-      return String(str)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
-    }
 
-    // --- FORM: submit davranışı ---
-    // Not: backend şu an app.py'de form POST bekliyor (form-encoded). Basit haliyle normal submit kullanıyoruz.
-    // Eğer AJAX ile çalışmak istersen app.py'yi JSON kabul edecek şekilde düzenlemelisin.
-    if (form && btnCreate && productInput) {
-      // Prevent double listeners: remove previous inline onclick logic not required
-      form.addEventListener("submit", (e) => {
-        // Eğer boş input ise engelle ve kullanıcıya mesaj ver (çeviriden alın)
-        const val = productInput.value.trim();
-        if (!val) {
-          e.preventDefault();
-          const msg = T["js_make_first"] || "Lütfen önce oluşturun.";
-          alert(msg);
-          return false;
-        }
-        // normal form submit (backend app.py /generate ile çalışır)
-        // NOT: Eğer deployda AJAX isteniyorsa bana söyle; app.py değişikliği gerekir.
-      });
 
-      // Ayrıca "btnCreate" bir <button type="submit"> olduğu için ekstra click handler'e gerek yok.
-      // Ancak kullanıcı daha önce separate click kullanmış olabilir; güvenlik için koruma yok.
-    }
 
-    // --- COPY RESULT (tek fonksiyon, window.T kullanır) ---
-    window.copyResult = function () {
-      const box = document.getElementById("resultBox");
-      if (!box) {
-        alert(T["js_make_first"] || "Önce oluşturun.");
-        return;
-      }
-      const text = box.innerText;
-      if (!navigator.clipboard) {
-        // fallback
-        const ta = document.createElement("textarea");
-        ta.value = text;
-        document.body.appendChild(ta);
-        ta.select();
-        try { document.execCommand("copy"); alert(T["js_copied"] || "Kopyalandı!"); }
-        catch (e) { alert("Kopyalama başarısız"); }
-        ta.remove();
-        return;
-      }
-      navigator.clipboard.writeText(text).then(() => {
-        alert(T["js_copied"] || "Kopyalandı!");
-      }).catch(() => {
-        alert("Kopyalama başarısız!");
-      });
-    };
 
-    // --- DOWNLOAD RESULT (Ücretsiz çıktı .txt) ---
-    window.downloadResult = function () {
-      const box = document.getElementById("resultBox");
-      if (!box) {
-        alert(T["js_make_first"] || "Önce oluşturun.");
-        return;
-      }
 
-      // DOM'dan başlık/description/tags çıkar (sayfanızın yapısına göre uyumlu)
-      const pEls = box.querySelectorAll("p");
-      // varsayılanlar çeviriden
-      const title = pEls[0] ? extractAfterColon(pEls[0].innerText) : (T["demo_title"] || "");
-      const desc = pEls[1] ? extractAfterColon(pEls[1].innerText) : (T["demo_description"] || "");
-      const tags = pEls[2] ? extractAfterColon(pEls[2].innerText) : (T["demo_tags"] || "");
 
-      const labelTitle = T["result_title_label"] || "Başlık";
-      const labelDesc = T["result_desc_label"] || "Açıklama";
-      const labelTags = T["result_tags_label"] || "SEO Tagler";
-      const note = T["free_plan_note"] || "";
 
-      const content = `${labelTitle}: ${title}\n\n${labelDesc}: ${desc}\n\n${labelTags}: ${tags}\n\n${note}`;
+const T = {{ t | tojson }};
 
-      const filename = T["download_filename"] || "urun-aciklama.txt";
-      const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 100);
+function copyResult(){
+  const box = document.getElementById('resultBox');
+  if(!box){ alert(T['js_make_first']); return; }
+  navigator.clipboard.writeText(box.innerText).then(()=> alert(T['js_copied']));
+}
 
-      // notify
-      if (typeof T["free_plan_used"] === "string") alert(T["free_plan_used"]);
-      else alert("1 çıktı kullanıldı");
-    };
 
-    function extractAfterColon(str) {
-      if (!str) return "";
-      return str.includes(":") ? str.split(":").slice(1).join(":").trim() : str.trim();
-    }
 
-    // --- MODAL & POPUP (tekil fonksiyonlar) ---
-    window.openModal = function (id) {
-      const el = document.getElementById(id);
-      if (!el) return;
-      el.style.display = "block";
-      if (languageSelect) { languageSelect.style.pointerEvents = "none"; languageSelect.style.opacity = "0.5"; }
-    };
-    window.closeModal = function (id) {
-      const el = document.getElementById(id);
-      if (!el) return;
-      el.style.display = "none";
-      if (languageSelect) { languageSelect.style.pointerEvents = "auto"; languageSelect.style.opacity = "1"; }
-    };
-    window.showPopup = function (text) {
-      const popup = document.getElementById("popup");
-      const poptxt = document.getElementById("popup-text");
-      if (!popup || !poptxt) return;
-      poptxt.innerText = String(text || "");
-      popup.style.display = "block";
-    };
-    window.closePopup = function () {
-      const popup = document.getElementById("popup");
-      if (!popup) return;
-      popup.style.display = "none";
-    };
 
-    // --- LANGUAGE CHANGE (index.html'de select onchange zaten changeLanguage çağırıyor) ---
-    // provide a safe global version that uses the server endpoint
-    window.changeLanguage = window.changeLanguage || async function (lang) {
-      try {
-        await fetch("/set-language", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ lang })
-        });
-        location.reload();
-      } catch (e) {
-        alert((T["js_selected_lang"] || "Language: ") + lang);
-      }
-    };
+function downloadResult() {
+  // T değişkeninin tanımlı olduğundan emin olun: const T = {{ t | tojson }};
+  const box = document.getElementById('resultBox');
 
-    // small utility: detect enter on chat input -> send
-    if (chatInput && sendChatBtn) {
-      chatInput.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-          e.preventDefault();
-          sendChatBtn.click();
-        }
-      });
-    }
+  // meta / title / description / tags: önce DOM'dan alıyoruz,
+  // ama eğer DOM'da yoksa T içindeki çeviriler/fallback metinleri kullanılır.
+  const meta = box?.querySelector('.meta')?.innerText || T['pro_hint'] || '';
+  
+  // p:nth-of-type kullanımı; her dilde label: değer formatı olduğu
+  // için ":" sonrasını alıyoruz (etiket farklı dillerde değişse bile çalışır).
+   const titleRaw = box?.querySelector('p:nth-of-type(1)')?.innerText || T['demo_title'] || '';
+   const descriptionRaw = box?.querySelector('p:nth-of-type(2)')?.innerText || T['demo_description'] || '';
+   const tagsRaw = box?.querySelector('p:nth-of-type(3)')?.innerText || T['demo_tags'] || '';
 
-    // --- Son: küçük korumalar / konsol mesajı ---
-    console.info("script.js loaded — clean unified version. LANG:", langKey);
-  }); // DOMContentLoaded end
 
-})(); // IIFE end
+
+
+  const title = titleRaw.includes(':') ? titleRaw.split(':').slice(1).join(':').trim() : (titleRaw.trim() || '');
+  const description = descriptionRaw.includes(':') ? descriptionRaw.split(':').slice(1).join(':').trim() : (descriptionRaw.trim() || '');
+  const tags = tagsRaw.includes(':') ? tagsRaw.split(':').slice(1).join(':').trim() : (tagsRaw.trim() || '');
+
+  // Not ve label'ları T içinden string olarak alıyoruz (T zaten seçili dilin sözlüğü)
+  const note = T['free_plan_note'] || '';
+  const labelTitle = T['result_title_label'] || 'Başlık';
+  const labelDesc = T['result_desc_label'] || 'Açıklama';
+  const labelTags = T['result_tags_label'] || 'SEO Tagler';
+
+  const content = `${labelTitle}: ${title}\n\n${labelDesc}: ${description}\n\n${labelTags}: ${tags}\n\n${note}`;
+
+
+  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  // Dosya adını da çeviri dosyasından alırsın (eklediyseniz) yoksa fallback:
+  a.download = T['download_filename'] || 'urun-aciklama.txt';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 100);
+
+  // Alert mesajı: T içinden string olarak alınmalı
+  if (typeof T['free_plan_used'] === 'string') {
+    alert(T['free_plan_used']);
+  } else {
+    // eğer free_plan_used obje değilse güvenli fallback
+    alert('1 çıktı kullanıldı');
+  }
+}
+
+
+
+
+
+
+
+
+
+
+function openModal(id){
+  document.getElementById(id).style.display='block';
+  const sel = document.getElementById('languageSelect');
+  if(sel){ sel.style.pointerEvents = 'none'; sel.style.opacity = '0.5'; }
+}
+
+
+
+
+function closeModal(id){
+  document.getElementById(id).style.display='none';
+  const sel = document.getElementById('languageSelect');
+  if(sel){ sel.style.pointerEvents = 'auto'; sel.style.opacity = '1'; }
+}
+
+
+
+
+
+
+async function changeLanguage(lang){
+  try{
+    await fetch('/set-language', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({lang})
+    });
+    location.reload();
+  }catch(e){
+    alert((T['js_selected_lang'] || 'Language: ') + lang);
+  }
+}
+
+
+
+
+
+// --- Modal Fonksiyonları ---
+function openModal(id) {
+    document.getElementById(id).style.display = 'block';
+}
+function closeModal(id) {
+    document.getElementById(id).style.display = 'none';
+}
+
+// --- Popup ---
+function showPopup(text) {
+    document.getElementById('popup-text').innerText = text;
+    document.getElementById('popup').style.display = 'block';
+}
+function closePopup() {
+    document.getElementById('popup').style.display = 'none';
+}
+
+// --- Form AJAX Submit ---
+const form = document.getElementById('productForm');
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const input = document.getElementById('productInput');
+    const product_name = input.value.trim();
+    if (!product_name) return alert('Lütfen ürün adı girin!');
+
+    const res = await fetch('/generate', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({product_name})
+    });
+
+    const data = await res.json();
+    displayResult(data);
+});
+
+function displayResult(result) {
+    const box = document.getElementById('resultBox');
+    if (!box) return;
+
+    box.innerHTML = `
+    <div class="meta" style="margin-bottom:16px;">
+        <span style="color:#0035ff; font-weight:600; text-shadow: 2px 2px 4px rgba(49,189,255,1);">
+            ${window.T['pro_hint']}
+        </span>
+    </div>
+    <p style="margin-bottom:12px; color:#2563eb; font-weight:600;">
+        ${window.T['result_title_label']}: ${result.title}
+    </p>
+    <p class="result-desc" style="margin-bottom:12px; color:#1e469d; font-weight:600; line-height:1.8;">
+        ${window.T['result_desc_label']}: ${result.description}
+    </p>
+    <p class="result-tags" style="margin-bottom:12px; color:#7c3aed; font-weight:600;">
+        ${window.T['result_tags_label']}: ${result.tags}
+    </p>
+    <div style="margin-top:16px; display:flex; gap:8px;">
+        <button class="btn-copy" onclick="copyResult()">${window.T['btn_copy_all']}</button>
+    </div>
+    `;
+}
+
+// --- Copy Result ---
+function copyResult() {
+    const box = document.getElementById('resultBox');
+    if (!box) return;
+    const text = box.innerText;
+    navigator.clipboard.writeText(text)
+        .then(() => alert('Kopyalandı!'))
+        .catch(() => alert('Kopyalama başarısız!'));
+}
+
+// --- Ücretsiz Plan Çıktısı ---
+function downloadResult() {
+    const box = document.getElementById('resultBox');
+    if (!box) return alert('Önce bir sonuç oluşturun.');
+    const text = box.innerText;
+    const blob = new Blob([text], {type:'text/plain'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'result.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+// --- AI Chat ---
+const aiIcon = document.getElementById('aiChatIcon');
+const aiBox = document.getElementById('aiChatBox');
+const aiClose = document.getElementById('aiChatClose');
+const chatMessages = document.getElementById('chatMessages');
+const chatInput = document.getElementById('chatInput');
+const sendChat = document.getElementById('sendChat');
+
+aiIcon.addEventListener('click', () => { aiBox.style.display = 'flex'; });
+aiClose.addEventListener('click', () => { aiBox.style.display = 'none'; });
+
+sendChat.addEventListener('click', async () => {
+    const msg = chatInput.value.trim();
+    if (!msg) return;
+    appendMessage('Siz', msg);
+    chatInput.value = '';
+    const res = await fetch('/chat', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({message: msg})
+    });
+    const data = await res.json();
+    appendMessage('AI', data.reply);
+});
+
+function appendMessage(sender, text) {
+    const div = document.createElement('div');
+    div.innerHTML = `<b>${sender}:</b> ${text}`;
+    chatMessages.appendChild(div);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// --- Dil Seçici zaten index.html'de changeLanguage ile hazır ---
+
+
 
 </script>
+
