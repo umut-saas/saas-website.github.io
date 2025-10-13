@@ -1,1 +1,426 @@
+HTML = """
 
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ t['app_name'] }} — SaaS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+
+
+
+
+<body>
+
+
+<header class="site-header">
+  <div class="brand">
+    <div class="logo">AI</div>
+    <div>
+      <div style="font-weight:700;">{{ t['app_name'] }}</div>
+      <div style="font-size:13px; opacity:.9;">{{ t['tagline'] }}</div>
+    </div>
+  </div>
+  <nav class="top-nav">
+    <button class="nav-btn" onclick="openModal('loginModal')">{{ t['nav_login'] }}</button>
+  </nav>
+</header>
+
+
+
+
+<main class="wrap">
+<section class="card main">
+  <h1 class="page-title">{{ t['page_title'] }}</h1>
+  <p class="lead">{{ t['lead'] }}</p>
+
+
+
+
+
+
+  <!-- Info boxes -->
+  <div class="info-boxes">
+    <div class="info-box" data-tooltip="{{ t['tooltip_ecom'] }}" onclick="showPopup('{{ t['tooltip_ecom'] }}')">🛒 {{ t['info_ecom'] }}</div>
+    <div class="info-box" data-tooltip="{{ t['tooltip_auto'] }}" onclick="showPopup('{{ t['tooltip_auto'] }}')">✨ {{ t['info_auto'] }}</div>
+    <div class="info-box" data-tooltip="{{ t['tooltip_seo'] }}" onclick="showPopup('{{ t['tooltip_seo'] }}')">🔑 {{ t['info_seo'] }}</div>
+    <div class="info-box" data-tooltip="{{ t['tooltip_ai'] }}" onclick="showPopup('{{ t['tooltip_ai'] }}')">🤖 {{ t['info_ai'] }}</div>
+  </div>
+
+  <!-- Popup -->
+  <div id="popup" class="popup">
+    <span id="popup-text"></span>
+    <button onclick="closePopup()">{{ t['popup_close'] }}</button>
+  </div>
+
+  <script>
+  function showPopup(text) { document.getElementById('popup-text').innerText = text; document.getElementById('popup').style.display = 'block'; }
+  function closePopup() { document.getElementById('popup').style.display = 'none'; }
+  </script>
+
+
+
+
+
+    <form id="productForm" class="fieldset" method="POST" action="/generate">
+    <label class="product-label">{{ t['label_product_name'] }}</label>
+    <input id="productInput" type="text" name="product_name" placeholder="{{ t['placeholder_product'] }}"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+    <div class="actions">
+      <button type="submit" class="btn-create">{{ t['btn_create'] }}</button>
+      <button type="button" class="btn-primary" style="display:none;" onclick="document.querySelector('input[name=product_name]').value='{{ t['sample_products'] }}'">{{ t['btn_fill_sample'] }}</button>
+      
+    </div>
+  </form>
+
+
+
+
+
+
+  {% if result %}
+  <div class="result" id="resultBox" style="line-height:2;">
+    <div class="meta" style="margin-bottom:40px;">
+       <span style="color:#0035ff; font-weight:600; text-shadow: 2px 2px 4px rgba(49,189,255,1);"></span>
+    </div>
+    <p style="margin-bottom:20px; color:#2563eb; font-weight:600;"></p>
+    <p style="margin-bottom:20px; color:#1e469d; font-weight:700; line-height:2;"></p>
+    <p style="margin-bottom:20px; color:#7c3aed; font-weight:600;"></p>
+    <div style="margin-top:20px; display:flex; gap:8px;">
+      <button class="btn-copy" onclick="copyResult()">{{ t['btn_copy_all'] }}</button> 
+    </div>
+  </div>
+  {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</section>
+
+
+<aside class="aside">
+
+  <!-- Pro Plan -->
+  <div class="plan-card">
+    <div class="plan-title">{{ t['pro_plan_title'] }}</div>
+    <div class="plan-price">$20</div>
+    <div class="meta">{{ t['pro_plan_meta'] }}</div>
+    <div class="plan-cta">
+      <button onclick="openModal('proModal')">{{ t['pro_plan_cta'] }}</button>
+    </div>
+  </div>
+
+
+  <!-- Ücretsiz Plan -->
+  <div class="free-plan-card">
+    <div class="free-plan-title">{{ t['free_plan_title'] }}</div>
+    <div class="free-plan-meta">{{ t['free_plan_meta'] }}</div>
+      <div class="plan-desc">{{ t['free_plan_desc'] }}</div>
+      <div class="plan-cta">
+      <button onclick="downloadResult()">{{ t['free_plan_cta'] }}</button>
+    </div>
+  </div>
+
+
+
+
+
+
+<div class="license-card">
+  <div class="license-title">{{ t['license_title'] }}</div>
+  <div class="license-meta">{{ t['license_meta'] }}</div>
+</div>
+
+
+
+
+
+<div class="trust-section">
+  <div class="trust-title">{{ t['trust_title'] }}</div>
+  <div class="trust-meta">{{ t['trust_meta'] }}</div>
+</div>
+
+
+
+</aside>
+</main>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<footer class="site-foot">
+  <span class="copy">© {{ year }} {{ t['app_name'] }}  </span>
+  <a href="#" onclick="openModal('aboutModal')">{{ t['footer_about'] }}</a>
+  <a href="#" onclick="openModal('contactModal')">{{ t['footer_contact'] }}</a>
+  <a href="#" onclick="openModal('privacyModal')">{{ t['footer_privacy'] }}</a> 
+  <a href="#" onclick="openModal('termsofusemodal')">{{ t['footer_termsofuse'] }}</a> 
+  <a href="#" onclick="openModal('refundModal')">{{ t['footer_refund'] }}</a>
+  <a href="#" onclick="openModal('updateModal')">{{ t['footer_update'] }}</a> 
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- About Modal -->
+<div id="aboutModal" class="modal">
+  <div class="modal-content about-box">
+    <span class="close" onclick="closeModal('aboutModal')">&times;</span>
+    <h3>{{ t['about_title'] }}</h3>
+    <p>{{ t['about_p1'] }}</p>
+    <p class="advantages-title">{{ t['about_adv'] }}</p> <!-- burada avantaj başlığı -->
+    <ul class="about-list">
+      {% for item in t['about_adv_items'] %}
+        <li>{{ item }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<!-- Contact Modal -->
+<div id="contactModal" class="modal">
+  <div class="modal-content contact-box">
+    <span class="close" onclick="closeModal('contactModal')">&times;</span>
+    <h3>{{ t['contact_title'] }}</h3>
+    <p>
+      <a href="mailto:umut-hort@hotmail.com" class="contact-mail">
+        umut-hort@hotmail.com
+      </a>
+    </p>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<!-- Privacy Modal -->
+<div id="privacyModal" class="modal">
+  <div class="modal-content privacy-box">
+    <span class="close" onclick="closeModal('privacyModal')">&times;</span>
+    <h3>{{ t['privacy_title'] }}</h3>
+    <p>{{ t['privacy_p'] }}</p>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<!-- Terms of Use Modal -->
+<div id="termsofusemodal" class="modal">
+  <div class="modal-content terms-box">
+    <span class="close" onclick="closeModal('termsofusemodal')">&times;</span>
+    <h3>{{ t['termsofuse_title'] }}</h3>
+    {% for line in t['termsofuse_p'].split('\n') %}
+      <p>{{ line }}</p>
+    {% endfor %}
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Refund Modal -->
+<div id="refundModal" class="modal">
+  <div class="modal-content policy-box">
+    <span class="close" onclick="closeModal('refundModal')">&times;</span>
+    <h3>{{ t['refund_title'] }}</h3>
+    <p>{{ t['refund_p1'] }}</p>
+    <p>{{ t['refund_p2'] }}</p>
+    <p>{{ t['refund_p3'] }}</p>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Update Policy Modal --> 
+<div id="updateModal" class="modal">
+  <div class="modal-content update-box">
+    <span class="close" onclick="closeModal('updateModal')">&times;</span>
+    <h3>{{ t['update_title'] }}</h3>
+    <p>{{ t['update_p1'] }}</p>
+    <p>{{ t['update_p2'] }}</p>
+    <p>{{ t['update_p3'] }}</p>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Dil Seçici Sağ Üst -->
+<div style="position:absolute; top:90px; right:20px; z-index:1000;">
+  <select id="languageSelect" onchange="changeLanguage(this.value)" style="
+    padding:8px 12px; border-radius:8px; border:none; outline: none; font-weight:600;
+    background: #4f46e5; color:white; cursor:pointer; font-size:14px; min-width:120px;
+    appearance: menulist-button; -webkit-appearance: menulist-button;">
+    <option value="tr" {{ 'selected' if lang=='tr' else '' }}>Türkçe</option>
+    <option value="en" {{ 'selected' if lang=='en' else '' }}>English</option>
+    <option value="de" {{ 'selected' if lang=='de' else '' }}>Deutsch</option>
+    <option value="ru" {{ 'selected' if lang=='ru' else '' }}>Русский</option>
+  </select>
+</div>
+
+
+
+
+
+
+
+
+<!-- Login Modal -->
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+    <span class="close-login" onclick="closeModal('loginModal')">&times;</span>
+    <h3 class="login-modal-title">{{ t['login_title'] }}</h3>
+    <input type="email" placeholder="{{ t['login_email_ph'] }}">
+    <input type="password" placeholder="{{ t['login_pass_ph'] }}">
+    <button class="btn-login-modal" onclick="alert('Demo')">{{ t['login_btn'] }}</button>
+  </div>
+</div>
+
+
+
+
+
+
+<!-- Pro Modal -->
+<div id="proModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('proModal')">&times;</span>
+    <h3>{{ t['pro_modal_title'] }}</h3>
+    <p>{{ t['pro_modal_p1'] }}</p>
+    <p>{{ t['pro_modal_p2'] }}</p>
+    <button class="btn-modal-primary" onclick="alert('Demo')">{{ t['pro_modal_btn'] }}</button>
+  </div>
+</div>
+
+
+
+
+
+
+<!-- AI Live Chat Icon -->
+<div id="aiChatIcon"
+     style="position: fixed; bottom: 30px; right: 30px; z-index: 50;
+            width: 70px; height: 70px; border-radius: 50%;
+            background-color: #b183ff; display: flex; justify-content: center; align-items: center;
+            cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: transform 0.2s;
+            font-size: 32px; color: #ffffff"
+     onmouseover="this.style.transform='translateY(-5px) scale(1.05)';"
+     onmouseout="this.style.transform='translateY(0) scale(1)';">
+  💬
+</div>
+
+
+
+<!-- AI Chat Box -->
+<div id="aiChatBox" style="
+  display: none; width: 360px; height: 450px; background: white; 
+  border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.3); 
+  position: fixed; bottom: 110px; right: 30px; flex-direction: column; overflow: hidden;
+  font-family: Arial, sans-serif;
+">
+  <div id="aiChatHeader" style="background: #8843ff; color: white; padding: 12px; font-weight: bold; text-align: center;">
+    AI Canlı Destek
+    <span id="aiChatClose" style="float:right; cursor:pointer;">✖</span>
+  </div>
+  <div id="chatMessages" style="flex:1; padding: 12px; overflow-y:auto;"></div>
+  <div style="display: flex; border-top: 1px solid #ddd;">
+    <input id="chatInput" type="text" placeholder="Sorunuzu yazın..." style="flex:1; border:none; padding:12px;">
+    <button id="sendChat" style="background:#8843ff; color:white; border:none; padding:0 18px; cursor:pointer;">Gönder</button>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<script>
+window.T = {{ t | tojson }}; 
+window.LANG = "{{ lang }}";
+</script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
+"""
