@@ -1,4 +1,4 @@
-<script>
+
 
 const aiIcon = document.getElementById('aiChatIcon');
 const aiBox = document.getElementById('aiChatBox');
@@ -320,7 +320,4 @@ function appendMessage(sender, text) {
 
 // --- Dil Seçici zaten index.html'de changeLanguage ile hazır ---
 
-
-
-</script>
 
