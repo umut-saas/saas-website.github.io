@@ -13,22 +13,8 @@
   </script>
 </head>
 	
-<script>
-  // globalde tanımla
-  window.changeLanguage = async function(lang) {
-    try {
-      await fetch('/set-language', {
-        method: 'POST',
-        headers: { 'Content-Type':'application/json' },
-        body: JSON.stringify({lang})
-      });
-      location.reload();
-    } catch(e) {
-      const T = window.T || {};
-      alert((T['js_selected_lang'] || 'Language: ') + lang);
-    }
-  };
-</script>
+
+
 
 
 <body>
@@ -274,10 +260,8 @@
   </div>
 </div>
 
-<script>
-  function showPopup(text) { document.getElementById('popup-text').innerText = text; document.getElementById('popup').style.display = 'block'; }
-  function closePopup() { document.getElementById('popup').style.display = 'none'; }
-</script>
+
+
 <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
