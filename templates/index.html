@@ -503,5 +503,37 @@ function downloadResult() {
 </script>
 
 
+
+
+
+
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const langSelector = document.querySelector('.lang-selector');
+    const contentBoxes = document.querySelectorAll('.info-box');
+    
+    contentBoxes.forEach(box => {
+      box.addEventListener('click', () => {
+        if (langSelector) {
+          langSelector.style.zIndex = '500'; // Z-index'i düşür
+        }
+      });
+    });
+
+    if (langSelector) {
+      langSelector.addEventListener('click', () => {
+        langSelector.style.zIndex = '1000'; // Z-index'i artır
+      });
+    }
+  });
+</script>
+
+
+
+
+
 </body>
 </html>
