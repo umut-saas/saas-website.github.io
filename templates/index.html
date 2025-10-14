@@ -459,68 +459,50 @@ window.LANG = "{{ lang }}";
 		
 		}
     
-        function downloadResult() {
-        const box = document.getElementById('resultBox');
-        if (!box || !box.innerText.trim()) {
-        alert(T['js_make_first']); // önce bir çıktı oluştur
-        return;
+  const T = {{ t | tojson }};
+  window.LANG = "{{ lang }}";
+
+  function downloadResult() {
+    const box = document.getElementById('resultBox');
+    if (!box || !box.innerText.trim()) {
+      alert(T['js_make_first'] || "Önce oluşturun.");
+      return;
     }
 
-    const lang = window.LANG || 'tr';
-    const labels = {
-        title: T['result_title_label'] || 'Başlık',
-        desc: T['result_desc_label'] || 'Açıklama',
-        tags: T['result_tags_label'] || 'SEO Tagler',
-        note: T['free_plan_note'] || ''
-    };
-
-
-
-    const contentData = {
-        tr: {
-            title: T['demo_title'],
-            desc: T['demo_description'],
-            tags: T['demo_tags']
-        },
-        en: {
-            title: T['demo_title_en'],
-            desc: T['demo_description_en'],
-            tags: T['demo_tags_en']
-        },
-        de: {
-            title: T['demo_title_de'],
-            desc: T['demo_description_de'],
-            tags: T['demo_tags_de']
-        },
-        ru: {
-            title: T['demo_title_ru'],
-            desc: T['demo_description_ru'],
-            tags: T['demo_tags_ru']
-        }
-    };
-
-    
     const titleRaw = box.querySelector('p:nth-of-type(1)')?.innerText || '';
-    const descRaw = box.querySelector('p:nth-of-type(2)')?.innerText || '';
+    const descriptionRaw = box.querySelector('p:nth-of-type(2)')?.innerText || '';
     const tagsRaw = box.querySelector('p:nth-of-type(3)')?.innerText || '';
 
     const title = titleRaw.includes(':') ? titleRaw.split(':').slice(1).join(':').trim() : titleRaw.trim();
-    const desc = descRaw.includes(':') ? descRaw.split(':').slice(1).join(':').trim() : descRaw.trim();
+    const description = descriptionRaw.includes(':') ? descriptionRaw.split(':').slice(1).join(':').trim() : descriptionRaw.trim();
     const tags = tagsRaw.includes(':') ? tagsRaw.split(':').slice(1).join(':').trim() : tagsRaw.trim();
 
-    const content = `${labels.title}: ${title}\n\n${labels.desc}: ${desc}\n\n${labels.tags}: ${tags}\n\n${labels.note}`;
+    const labelTitle = T['result_title_label'] || 'Başlık';
+    const labelDesc  = T['result_desc_label'] || 'Açıklama';
+    const labelTags  = T['result_tags_label'] || 'SEO Tagler';
+    const note       = T['free_plan_note'] || '';
+
+    const content = `${labelTitle}: ${title}\n\n${labelDesc}: ${description}\n\n${labelTags}: ${tags}\n\n${note}`;
+
+    const lang = (window.LANG || 'tr').toLowerCase();
+    const filenames = {
+      tr: 'urun-aciklama.txt',
+      en: 'product-description.txt',
+      de: 'produktbeschreibung.txt',
+      ru: 'opisanie-tovara.txt'
+    };
+    const filename = filenames[lang] || T['download_filename'] || 'urun-aciklama.txt';
 
     const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = T['download_filename'] || 'urun-aciklama.txt';
+    a.download = filename;
     document.body.appendChild(a);
     a.click();
     setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 100);
 
-    alert(T['free_plan_used'] || '1 çıktı kullanıldı');
-   
-    }
+    alert(T['free_plan_used'] || '1 çıktı kullanıldı.');
+  }
 	
 	</script>
 
