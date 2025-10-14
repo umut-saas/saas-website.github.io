@@ -454,7 +454,10 @@ window.LANG = "{{ lang }}";
                     modals[i].style.display = "none";
                 }
             }
-        }
+        
+	    
+		
+		}
     
         function downloadResult() {
         const box = document.getElementById('resultBox');
@@ -471,6 +474,32 @@ window.LANG = "{{ lang }}";
         note: T['free_plan_note'] || ''
     };
 
+
+
+    const contentData = {
+        tr: {
+            title: T['demo_title'],
+            desc: T['demo_description'],
+            tags: T['demo_tags']
+        },
+        en: {
+            title: T['demo_title_en'],
+            desc: T['demo_description_en'],
+            tags: T['demo_tags_en']
+        },
+        de: {
+            title: T['demo_title_de'],
+            desc: T['demo_description_de'],
+            tags: T['demo_tags_de']
+        },
+        ru: {
+            title: T['demo_title_ru'],
+            desc: T['demo_description_ru'],
+            tags: T['demo_tags_ru']
+        }
+    };
+
+    
     const titleRaw = box.querySelector('p:nth-of-type(1)')?.innerText || '';
     const descRaw = box.querySelector('p:nth-of-type(2)')?.innerText || '';
     const tagsRaw = box.querySelector('p:nth-of-type(3)')?.innerText || '';
@@ -492,10 +521,6 @@ window.LANG = "{{ lang }}";
     alert(T['free_plan_used'] || '1 çıktı kullanıldı');
    
     }
-
-        
-	
-
 	
 	</script>
 
