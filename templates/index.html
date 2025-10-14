@@ -326,7 +326,7 @@
 
 
 <!-- Dil Seçici Sağ Üst -->
-<div style="position:absolute; top:90px; right:20px; z-index:1000;">
+<div style="position:absolute; top:90px; right:20px; z-index:1001;">
   <select id="languageSelect" onchange="changeLanguage(this.value)" style="
     padding:8px 12px; border-radius:8px; border:none; outline: none; font-weight:600;
     background: #4f46e5; color:white; cursor:pointer; font-size:14px; min-width:120px;
@@ -525,7 +525,7 @@ function downloadResult() {
 
     if (langSelector) {
       langSelector.addEventListener('click', () => {
-        langSelector.style.zIndex = '1000'; // Z-index'i artır
+        langSelector.style.zIndex = '1001'; // Z-index'i artır
       });
     }
   });
