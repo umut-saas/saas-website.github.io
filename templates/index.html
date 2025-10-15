@@ -478,18 +478,18 @@ window.LANG = "{{ lang }}";
 
 
 
-// OWNER kontrolü (sadece kendi cihazında aktif edebilirsin)
+// OWNER kontrolü
 function isOwnerClientSide() {
-  // Konsolda bu kodu çalıştırarak kendi cihazını owner yapabilirsin:
+  // Konsolda aktif etmek için:
   // localStorage.setItem('isOwner', 'true');
   return localStorage.getItem('isOwner') === 'true';
 }
 
-
-
 function downloadResult() {
+  const isOwner = isOwnerClientSide();
+
   // Eğer owner değilse, sadece 1 kere indirmesine izin ver
-  if (!isOwnerClientSide()) {
+  if (!isOwner) {
     if (localStorage.getItem('freeDownloadUsed')) {
       alert(T['free_plan_already_used'] || 'Ücretsiz çıktı hakkınız zaten kullanıldı!');
       return;
@@ -526,14 +526,14 @@ function downloadResult() {
     a.click();
     setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 100);
 
-    alert(T['free_plan_used'] || '1 çıktı kullanıldı');
+  
 
-
-
-
-  // Eğer owner değilse, artık bir daha indiremesin
-  if (!isOwnerClientSide()) {
+  // Eğer owner değilse, ilk indirmeden sonra kilitle
+  if (!isOwner) {
     localStorage.setItem('freeDownloadUsed', 'true');
+    alert(T['free_plan_used'] || '1 çıktı kullanıldı');
+  } else {
+    alert('Owner olarak çıktı alındı'); // owner için görsel onay
   }
 }
 
