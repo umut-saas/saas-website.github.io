@@ -125,14 +125,20 @@
 
 
   <!-- Ücretsiz Plan -->
-  <div class="free-plan-card">
+<div class="free-plan-card">
     <div class="free-plan-title">{{ t['free_plan_title'] }}</div>
     <div class="free-plan-meta">{{ t['free_plan_meta'] }}</div>
-      <div class="plan-desc">{{ t['free_plan_desc'] }}</div>
-      <div class="plan-cta">
-      <button onclick="downloadResult()">{{ t['free_plan_cta'] }}</button>
+    <div class="plan-desc">{{ t['free_plan_desc'] }}</div>
+    <div class="plan-cta">
+        <button id="freeDownloadBtn">{{ t['free_plan_cta'] }}</button>
     </div>
-  </div>
+    <div id="resultBox" style="display:none">
+        <p>{{ t['demo_title'] }}</p>
+        <p>{{ t['demo_description'] }}</p>
+        <p>{{ t['demo_tags'] }}</p>
+    </div>
+</div>
+
 
 
 
@@ -475,12 +481,7 @@ window.LANG = "{{ lang }}";
 
 
 
-<!-- resultBox: DOM üzerinden veri çekmek için gizli -->
-<div id="resultBox" style="display:none">
-  <p>{{ t['demo_title'] }}</p>
-  <p>{{ t['demo_description'] }}</p>
-  <p>{{ t['demo_tags'] }}</p>
-</div>
+
 
 
 
@@ -491,66 +492,33 @@ window.LANG = "{{ lang }}";
 const T = {{ t | tojson }};
 window.LANG = "{{ lang }}";
 
-// OWNER kontrolü
 function isOwnerClientSide() {
     return localStorage.getItem('isOwner') === 'true';
 }
 
-// downloadResult fonksiyonu
 function downloadResult() {
     const isOwner = isOwnerClientSide();
     const lang = (window.LANG || 'tr').toLowerCase();
 
-    // Çok dilli mesajlar
-    const messages = {
-        freeUsed: {
-            tr: T['free_plan_already_used'] || 'Ücretsiz çıktı hakkınız zaten kullanıldı!',
-            en: T['free_plan_already_used'] || 'Your free download has already been used!',
-            de: T['free_plan_already_used'] || 'Ihr kostenloser Download wurde bereits verwendet!',
-            ru: T['free_plan_already_used'] || 'Ваш бесплатный скачивание уже использовано!'
-        },
-        freeNow: {
-            tr: '1 çıktı kullanıldı',
-            en: '1 download used',
-            de: '1 Ausgabe verwendet',
-            ru: 'Использовано 1 скачивание'
-        },
-        ownerMsg: {
-            tr: 'Owner olarak çıktı alındı',
-            en: 'Output downloaded as owner',
-            de: 'Als Owner heruntergeladen',
-            ru: 'Загружено как владелец'
-        }
-    };
-
-    const freeUsedMsg = messages.freeUsed[lang] || messages.freeUsed['tr'];
-    const freeNowMsg = messages.freeNow[lang] || messages.freeNow['tr'];
-    const ownerMsg = messages.ownerMsg[lang] || messages.ownerMsg['tr'];
-
-    // Müşteri 1 kez indirebilir kontrolü
+    // Müşteri 1 kez
     if (!isOwner && localStorage.getItem('freeDownloadUsed')) {
-        alert(freeUsedMsg);
+        alert(T['free_plan_already_used'] || 'Ücretsiz çıktı hakkınız zaten kullanıldı!');
         return;
     }
 
-    // DOM üzerinden veri çek
     const box = document.getElementById('resultBox');
-    const titleRaw = box?.querySelector('p:nth-of-type(1)')?.innerText || T['demo_title'] || '';
-    const descriptionRaw = box?.querySelector('p:nth-of-type(2)')?.innerText || T['demo_description'] || '';
-    const tagsRaw = box?.querySelector('p:nth-of-type(3)')?.innerText || T['demo_tags'] || '';
+    if (!box) {
+        console.error('resultBox bulunamadı!');
+        return;
+    }
 
-    const title = titleRaw.trim();
-    const description = descriptionRaw.trim();
-    const tags = tagsRaw.trim();
+    const title = box.querySelector('p:nth-of-type(1)')?.innerText.trim() || T['demo_title'] || '';
+    const description = box.querySelector('p:nth-of-type(2)')?.innerText.trim() || T['demo_description'] || '';
+    const tags = box.querySelector('p:nth-of-type(3)')?.innerText.trim() || T['demo_tags'] || '';
+    const note = T['free_plan_note'] || 'Not: Bu dosya demo amaçlıdır, sadece 1 kez indirilebilir.';
 
-    const labelTitle = T['result_title_label'] || 'Başlık';
-    const labelDesc = T['result_desc_label'] || 'Açıklama';
-    const labelTags = T['result_tags_label'] || 'SEO Tagler';
-    const note = T['free_plan_note'] || '';
+    const content = `Başlık: ${title}\n\nAçıklama: ${description}\n\nSEO Tagler: ${tags}\n\n${note}`;
 
-    const content = `${labelTitle}: ${title}\n\n${labelDesc}: ${description}\n\n${labelTags}: ${tags}\n\n${note}`;
-
-    // Dosya adı
     const filenames = {
         tr: 'Ürün Açıklaması İndirildi.txt',
         en: 'Product Description Downloaded.txt',
@@ -559,7 +527,6 @@ function downloadResult() {
     };
     const filename = filenames[lang] || filenames['tr'];
 
-    // Dosya indirme
     const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
@@ -568,19 +535,12 @@ function downloadResult() {
     a.click();
     setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 100);
 
-    // Alert ve indirme durumu
-    if (!isOwner) {
-        localStorage.setItem('freeDownloadUsed', 'true');
-        alert(freeNowMsg);
-    } else {
-        alert(ownerMsg);
-    }
+    if (!isOwner) localStorage.setItem('freeDownloadUsed', 'true');
 }
 
-// Butona event ekle
 document.addEventListener('DOMContentLoaded', () => {
     const btn = document.getElementById('freeDownloadBtn');
-    btn.addEventListener('click', downloadResult);
+    if (btn) btn.addEventListener('click', downloadResult);
 });
 </script>
 
