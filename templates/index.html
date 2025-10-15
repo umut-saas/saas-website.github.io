@@ -469,11 +469,35 @@ window.LANG = "{{ lang }}";
 
 
 
+
+
+
 <script>
 const T = {{ t | tojson }};
 window.LANG = "{{ lang }}";
 
+
+
+// OWNER kontrolü (sadece kendi cihazında aktif edebilirsin)
+function isOwnerClientSide() {
+  // Konsolda bu kodu çalıştırarak kendi cihazını owner yapabilirsin:
+  // localStorage.setItem('isOwner', 'true');
+  return localStorage.getItem('isOwner') === 'true';
+}
+
+
+
 function downloadResult() {
+  // Eğer owner değilse, sadece 1 kere indirmesine izin ver
+  if (!isOwnerClientSide()) {
+    if (localStorage.getItem('freeDownloadUsed')) {
+      alert(T['free_plan_already_used'] || 'Ücretsiz çıktı hakkınız zaten kullanıldı!');
+      return;
+    }
+  }
+
+
+
     const title = T['demo_title'] || '';
     const description = T['demo_description'] || '';
     const tags = T['demo_tags'] || '';
@@ -503,7 +527,17 @@ function downloadResult() {
     setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 100);
 
     alert(T['free_plan_used'] || '1 çıktı kullanıldı');
+
+
+
+
+  // Eğer owner değilse, artık bir daha indiremesin
+  if (!isOwnerClientSide()) {
+    localStorage.setItem('freeDownloadUsed', 'true');
+  }
 }
+
+
 </script>
 
 
