@@ -138,12 +138,6 @@
 
 
 
-<script>
-  const T = {{ t | tojson }};
-  console.log(T['download_filename']); // Bu şimdi tarayıcıda "Ürün Açıklaması İndirildi.txt" veya seçilen dile göre görünecek
-</script>
-
-
 
 
 
@@ -493,12 +487,12 @@ function downloadResult() {
 
     const lang = (window.LANG || 'tr').toLowerCase();
     const filenames = {
-        tr: 'urun-aciklama.txt',
-        en: 'product-description.txt',
-        de: 'produktbeschreibung.txt',
-        ru: 'opisanie-tovara.txt'
+        tr: 'Ürün Açıklaması İndirildi.txt',
+        en: 'Product Description Downloaded.txt',
+        de: 'Produktbeschreibung heruntergeladen.txt',
+        ru: 'Opisanie Produkta Zagruzheno.txt'
     };
-    const filename = filenames[lang] || 'urun-aciklama.txt';
+    const filename = filenames[lang] || 'Ürün Açıklaması İndirildi.txt';
 
     const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
     const a = document.createElement('a');
