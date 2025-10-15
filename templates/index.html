@@ -486,39 +486,74 @@ window.LANG = "{{ lang }}";
 
 
 
-
-
 <script>
 const T = {{ t | tojson }};
 window.LANG = "{{ lang }}";
 
+// Owner kontrolü
 function isOwnerClientSide() {
     return localStorage.getItem('isOwner') === 'true';
 }
 
+// Ana indirme fonksiyonu
 function downloadResult() {
     const isOwner = isOwnerClientSide();
     const lang = (window.LANG || 'tr').toLowerCase();
 
-    // Müşteri 1 kez
+    // Çok dilli alert mesajları
+    const messages = {
+        freeUsed: {
+            tr: T['free_plan_already_used'] || 'Ücretsiz çıktı hakkınız zaten kullanıldı!',
+            en: T['free_plan_already_used'] || 'Your free download has already been used!',
+            de: T['free_plan_already_used'] || 'Ihr kostenloser Download wurde bereits verwendet!',
+            ru: T['free_plan_already_used'] || 'Ваш бесплатный скачивание уже использовано!'
+        },
+        freeNow: {
+            tr: '1 çıktı kullanıldı',
+            en: '1 download used',
+            de: '1 Ausgabe verwendet',
+            ru: 'Использовано 1 скачивание'
+        },
+        ownerMsg: {
+            tr: 'Owner olarak çıktı alındı',
+            en: 'Output downloaded as owner',
+            de: 'Als Owner heruntergeladen',
+            ru: 'Загружено как владелец'
+        }
+    };
+
+    const freeUsedMsg = messages.freeUsed[lang] || messages.freeUsed['tr'];
+    const freeNowMsg = messages.freeNow[lang] || messages.freeNow['tr'];
+    const ownerMsg = messages.ownerMsg[lang] || messages.ownerMsg['tr'];
+
+    // Müşteri 1 kez indirebilir kontrolü
     if (!isOwner && localStorage.getItem('freeDownloadUsed')) {
-        alert(T['free_plan_already_used'] || 'Ücretsiz çıktı hakkınız zaten kullanıldı!');
+        alert(freeUsedMsg);
         return;
     }
 
+    // DOM üzerinden veri çek
     const box = document.getElementById('resultBox');
     if (!box) {
         console.error('resultBox bulunamadı!');
         return;
     }
 
-    const title = box.querySelector('p:nth-of-type(1)')?.innerText.trim() || T['demo_title'] || '';
-    const description = box.querySelector('p:nth-of-type(2)')?.innerText.trim() || T['demo_description'] || '';
-    const tags = box.querySelector('p:nth-of-type(3)')?.innerText.trim() || T['demo_tags'] || '';
+    const raw = box.innerText || '';
+    const lines = raw.split('\n').map(line => line.trim()).filter(line => line);
+
+    const title = lines[0] || T['demo_title'] || '';
+    const description = lines[1] || T['demo_description'] || '';
+    const tags = lines[2] || T['demo_tags'] || '';
     const note = T['free_plan_note'] || 'Not: Bu dosya demo amaçlıdır, sadece 1 kez indirilebilir.';
 
-    const content = `Başlık: ${title}\n\nAçıklama: ${description}\n\nSEO Tagler: ${tags}\n\n${note}`;
+    const labelTitle = T['result_title_label'] || 'Başlık';
+    const labelDesc = T['result_desc_label'] || 'Açıklama';
+    const labelTags = T['result_tags_label'] || 'SEO Tagler';
 
+    const content = `${labelTitle}: ${title}\n\n${labelDesc}: ${description}\n\n${labelTags}: ${tags}\n\n${note}`;
+
+    // Dosya adları diller için
     const filenames = {
         tr: 'Ürün Açıklaması İndirildi.txt',
         en: 'Product Description Downloaded.txt',
@@ -527,6 +562,7 @@ function downloadResult() {
     };
     const filename = filenames[lang] || filenames['tr'];
 
+    // Dosya oluşturma ve indirme
     const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
@@ -535,14 +571,22 @@ function downloadResult() {
     a.click();
     setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 100);
 
-    if (!isOwner) localStorage.setItem('freeDownloadUsed', 'true');
+    // İndirme durumu ve alert
+    if (!isOwner) {
+        localStorage.setItem('freeDownloadUsed', 'true');
+        alert(freeNowMsg);
+    } else {
+        alert(ownerMsg);
+    }
 }
 
+// Butona event ekleme
 document.addEventListener('DOMContentLoaded', () => {
     const btn = document.getElementById('freeDownloadBtn');
     if (btn) btn.addEventListener('click', downloadResult);
 });
 </script>
+
 
 
 
