@@ -33,7 +33,7 @@
     </div>
   </div>
   <nav class="top-nav">
-    <button class="nav-btn" onclick="openModal('loginModal')">{{ t['nav_login'] }}</button>
+    
   </nav>
 </header>
 
@@ -354,6 +354,17 @@
 
 
 
+
+<!-- Login Modal -->
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+    <span class="close-login" onclick="closeModal('loginModal')">&times;</span>
+    <h3 class="login-modal-title">{{ t['login_title'] }}</h3>
+    <input type="email" placeholder="{{ t['login_email_ph'] }}">
+    <input type="password" placeholder="{{ t['login_pass_ph'] }}">
+    <button class="btn-login-modal" onclick="alert('Demo')">{{ t['login_btn'] }}</button>
+  </div>
+</div>
 
 
 
