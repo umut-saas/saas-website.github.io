@@ -420,11 +420,33 @@
 
 
 
+
+
+
+
+
+
 <script>
 window.T = {{ t | tojson }}; 
 window.LANG = "{{ lang }}";
 </script>
 <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -469,6 +491,30 @@ window.LANG = "{{ lang }}";
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <script>
 const T = {{ t | tojson }};
 window.LANG = "{{ lang }}";
@@ -504,39 +550,6 @@ function downloadResult() {
 
     alert(T['free_plan_used'] || '1 çıktı kullanıldı');
 }
-
-
-
-
-
-// Owner bypass ve müşteri 1 kez indirme kontrolü
-const guardedDownload = function(original) {
-    return function(...args) {
-        // Owner kontrolü
-        if (isOwner()) {
-            console.warn('Owner olarak sınırsız indirme yapıldı; kullanıcı kısıtlamaları uygulanmadı.');
-            if (original) return original.apply(this, args);
-            return;
-        }
-
-        // Müşteri 1 kez indirme kontrolü
-        if (localStorage.getItem('freeDownloadUsed')) {
-            alert(T['free_plan_already_used'] || 'Ücretsiz çıktı hakkınız zaten kullanıldı!');
-            return;
-        }
-
-        // Orijinal downloadResult fonksiyonunu çalıştır
-        if (original) original.apply(this, args);
-
-        // İndirme tamamlandıysa işaretle
-        localStorage.setItem('freeDownloadUsed', 'true');
-    };
-};
-
-// Mevcut downloadResult fonksiyonunu sarmala
-downloadResult = guardedDownload(downloadResult);
-
-
 </script>
 
 
