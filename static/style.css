@@ -43,7 +43,7 @@ input[type="text"]{ padding:12px 14px; border-radius:10px; border:1px solid rgba
 .aside { display:flex; flex-direction:column; gap:14px; }
 .plan-card { background: linear-gradient(180deg, rgba(255,255,255,0.95), #fff); padding:16px; font-weight:700; color:#0054ff; border-radius:12px; border:1px solid rgba(15,23,42,0.04); }
 .plan-title{ font-weight:700; color:#2057c7; font-size:16px; margin-bottom:8px; }
-.plan-price { font-size: 18px; text-shadow: 0 0 5px #003cb7, 0 0 10px #003cb7, 0 0 15px #003cb7, 0 0 20px #003cb7; top: -18px; left: 156px; position: relative; line-height: 0.1; color: #cdeeff; animation: bounce 1s infinite alternate;}
+.plan-price { font-size: 18px; text-shadow: 0 0 5px #003cb7, 0 0 10px #003cb7, 0 0 15px #003cb7, 0 0 20px #003cb7; top: -18px; left: 77px; position: relative; line-height: 0.1; color: #cdeeff; animation: bounce 1s infinite alternate;}
 
 @keyframes bounce { 0% { transform: translateY(0); } 100% { transform: translateY(-5px); } }
 
@@ -189,7 +189,7 @@ p.lead { font-size: 14px !important; }
 .plan-card { position: relative !important; padding: 14px !important; font-size: 14px !important; }
 
 
-.plan-price { position: absolute !important; font-size: 18px !important; text-shadow: 0 0 5px #003cb7,  0 0 10px #003cb7,  0 0 15px #003cb7,  0 0 20px #003cb7; color: #cdeeff; animation: bounce 1s infinite alternate; top: 22px !important; left: 172px !important; }
+.plan-price { position: absolute !important; font-size: 18px !important; text-shadow: 0 0 5px #003cb7,  0 0 10px #003cb7,  0 0 15px #003cb7,  0 0 20px #003cb7; color: #cdeeff; animation: bounce 1s infinite alternate; top: 22px !important; left: 92px !important; }
 
 
 @keyframes bounce {  0% { transform: translateY(0); }  100% { transform: translateY(-5px); }  }
@@ -316,7 +316,7 @@ p.lead { font-size: 14px !important; }
 .plan-card { position: relative !important; padding: 14px !important; font-size: 14px !important; }
 
 
-.plan-price { position: absolute !important; font-size: 18px !important; text-shadow: 0 0 3px #003cb7, 0 0 6px #003cb7, 0 0 9px #003cb7, 0 0 12px #003cb7; color: #cdeeff; top: 22px !important; left: 172px !important; animation: bounce 1s infinite alternate; }
+.plan-price { position: absolute !important; font-size: 18px !important; text-shadow: 0 0 3px #003cb7, 0 0 6px #003cb7, 0 0 9px #003cb7, 0 0 12px #003cb7; color: #cdeeff; top: 22px !important; left: 90px !important; animation: bounce 1s infinite alternate; }
 
 
 @keyframes bounce {  0% { transform: translateY(0); }  100% { transform: translateY(-3px); } }  
