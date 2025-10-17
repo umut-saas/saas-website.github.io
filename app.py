@@ -368,7 +368,7 @@ def index():
     t = TRANSLATIONS[lang]
     return render_template("index.html", t=t, lang=lang, year=datetime.now().year)
 
-@app.route("/generate", methods=["POST"])
+@app.route("/generate", methods=["GET", "POST"])
 def generate():
     lang = get_lang()
     t = TRANSLATIONS[lang]
