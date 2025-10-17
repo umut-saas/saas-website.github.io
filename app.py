@@ -48,7 +48,6 @@ TRANSLATIONS = {
         "free_plan_note": "Not: Bu dosya demo amaçlıdır, sadece 1 kez indirilebilir.",
         "free_plan_used": "1 çıktı kullanıldı",
         "pro_plan_title": "Pro Plan",
-        "pro_plan_meta": "Limitsiz kullanım, öncelikli destek",
         "pro_plan_cta": "Satın Al",
         "trust_title": "Güvence & Destek",
         "trust_meta": "SSL, veri gizliliği ve müşteri desteği ile hazır.",
@@ -81,15 +80,17 @@ TRANSLATIONS = {
         "login_email_ph": "E-posta",
         "login_pass_ph": "Şifre",
         "login_btn": "Giriş Yap",
-        "pro_modal_title": "Pro Plan — Startup",
-        "pro_modal_p1": "Limitsiz kullanım, öncelikli destek",
-        "pro_modal_p2": "Ödeme ekranı demo amaçlıdır.",
+        "pro_modal_p1": "Tüm özelliklere ve",
+        "pro_modal_p2": "Tüm entegrasyonlara erişim",
         "pro_modal_btn": "Satın Al",
         "js_make_first": "Önce oluşturun.",
         "js_copied": "Sonuç kopyalandı!",
         "js_selected_lang": "Dil seçildi: ",
-        "download_filename": "Ürün Açıklaması İndirildi.txt",
+        "download_filename": "urun-aciklama.txt",
     },
+
+
+
 
 
     "en": {
@@ -124,7 +125,6 @@ TRANSLATIONS = {
         "free_plan_note": "Note: This file is for demo purposes, can only be downloaded once.",
         "free_plan_used": "1 output used",
         "pro_plan_title": "Pro Plan",
-        "pro_plan_meta": "Unlimited usage, priority support",
         "pro_plan_cta": "Buy",
         "trust_title": "Trust & Support",
         "trust_meta": "SSL, data privacy, and customer support included.",
@@ -157,15 +157,18 @@ TRANSLATIONS = {
         "login_email_ph": "Email",
         "login_pass_ph": "Password",
         "login_btn": "Sign In",
-        "pro_modal_title": "Pro Plan — Startup",
-        "pro_modal_p1": "Unlimited usage, priority support",
-        "pro_modal_p2": "Payment screen is for demo purposes.",
+        "pro_modal_p1": "Access to all features and",
+        "pro_modal_p2": "all integrations",
         "pro_modal_btn": "Buy",
         "js_make_first": "Generate first.",
         "js_copied": "Copied!",
         "js_selected_lang": "Language selected: ",
-        "download_filename": "Product Description Downloaded.txt",
+        "download_filename": "product-description.txt",
     },
+
+
+
+
 
 
     "de": {
@@ -200,7 +203,6 @@ TRANSLATIONS = {
         "free_plan_note": "Hinweis: Diese Datei ist für Demo-Zwecke, kann nur einmal heruntergeladen werden.",
         "free_plan_used": "1 Ausgabe verwendet",
         "pro_plan_title": "Pro Plan",
-        "pro_plan_meta": "Unbegrenzt, priorisierter Support",
         "pro_plan_cta": "Kaufen",
         "trust_title": "Sicherheit & Support",
         "trust_meta": "SSL, Datenschutz und Kundensupport inklusive.",
@@ -233,15 +235,17 @@ TRANSLATIONS = {
         "login_email_ph": "E-Mail",
         "login_pass_ph": "Passwort",
         "login_btn": "Anmelden",
-        "pro_modal_title": "Pro-Plan — Startup",
-        "pro_modal_p1": "Unbegrenzt, priorisierter Support",
-        "pro_modal_p2": "Zahlungsseite nur Demo.",
+        "pro_modal_p1": "Zugang zu allen Funktionen und",
+        "pro_modal_p2": "allen Integrationen", 
         "pro_modal_btn": "Kaufen",
         "js_make_first": "Bitte zuerst erzeugen.",
         "js_copied": "Kopiert!",
         "js_selected_lang": "Sprache gewählt: ",
-        "download_filename": "Produktbeschreibung heruntergeladen.txt",
+        "download_filename": "produkt-beschreibung.txt",
     },
+
+
+
 
 
     "ru": {
@@ -276,7 +280,6 @@ TRANSLATIONS = {
         "free_plan_note": "Примечание: Этот файл предназначен для демонстрации, можно скачать только один раз.",
         "free_plan_used": "1 результат использован",
         "pro_plan_title": "План Pro",
-        "pro_plan_meta": "Безлимит, приоритетная поддержка",
         "pro_plan_cta": "Купить",
         "trust_title": "Надёжность и поддержка",
         "trust_meta": "SSL, конфиденциальность и поддержка клиентов.",
@@ -309,15 +312,15 @@ TRANSLATIONS = {
         "login_email_ph": "Эл. почта",
         "login_pass_ph": "Пароль",
         "login_btn": "Войти",
-        "pro_modal_title": "План Pro — Startup",
-        "pro_modal_p1": "Безлимит и приоритетная поддержка",
-        "pro_modal_p2": "Платёжная страница для демо.",
+        "pro_modal_p1": "Доступ ко всем функциям и",
+        "pro_modal_p2": "всем интеграциям",
         "pro_modal_btn": "Купить",
         "js_make_first": "Сначала сгенерируйте.",
         "js_copied": "Скопировано!",
         "js_selected_lang": "Выбран язык: ",
-        "download_filename": "Opisanie Produkta Zagruzheno.txt",
+        "download_filename": "opisanie-tovara.txt",
     },
+
 
 
 
