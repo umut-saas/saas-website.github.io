@@ -6,7 +6,7 @@
 *{box-sizing:border-box;}
 
 body{ font-family: 'Inter', system-ui, Arial, sans-serif; margin:0; background: linear-gradient(135deg,var(--bg1), var(--bg2)); -webkit-font-smoothing:antialiased; color:#0f172a; min-height:100vh; display:flex; flex-direction:column; }
-header.site-header{ display:flex; align-items:center; justify-content:space-between; padding:18px 28px; background: linear-gradient(90deg,var(--accent1),var(--accent2)); color:white; box-shadow:0 6px 18px rgba(15,23,42,0.12); }
+header.site-header{ display:flex; align-items:center; justify-content:center; padding:18px 28px; background: linear-gradient(90deg,var(--accent1),var(--accent2)); color:white; box-shadow:0 6px 18px rgba(15,23,42,0.12); }
 .brand{ display:flex; align-items:center; gap:12px; }
 .logo{ width:42px; height:42px; border-radius:10px; background:rgba(255,255,255,0.18); display:flex; align-items:center; justify-content:center; font-weight:700; color:white; box-shadow:0 4px 10px rgba(0,0,0,0.08); }
 nav.top-nav { display:flex; gap:12px; align-items:center; }
