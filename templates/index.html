@@ -352,29 +352,6 @@
 
 
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-
-  async function changeLanguage(lang){
-    try{
-      await fetch('/set-language', {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({lang})
-      });
-      location.reload();
-    } catch(e){
-      alert('Language selected: ' + lang);
-    }
-  }
-
-  const sel = document.getElementById('languageSelect');
-  if(sel) sel.addEventListener('change', () => changeLanguage(sel.value));
-
-});
-</script>
-
-
 
 
 
