@@ -17,11 +17,11 @@ app = Flask(__name__)
 # -- Basit i18n sözlüğü --
 TRANSLATIONS = {
     "tr": {
-        "app_name": "AI ÜrünSEO",
+        "app_name": "AI Ürün SEO",
         "tagline": "Ürün açıklama & SEO otomasyonu",
         "nav_login": "Giriş Yap",
-        "page_title": "E-ticaret için AI destekli ürün açıklaması & SEO başlık/tag üretici 🚀",
-        "lead": "Ürün adını girin, AI (veya demo) sizin için başlık, açıklama ve SEO etiketlerini sağlar.",
+        "page_title": "E-ticaret için AI destekli ürün açıklaması & SEO başlık ile tag üretici 🚀",
+        "lead": "Ürün adını girin AI sizin için başlık açıklama ve SEO etiketlerini sağlar.",
         "info_ecom": "E-ticaret uyumlu",
         "info_auto": "Otomatik başlık & açıklama",
         "info_seo": "SEO & Tag üretimi",
@@ -94,11 +94,11 @@ TRANSLATIONS = {
 
 
     "en": {
-        "app_name": "AI ProductSEO",
+        "app_name": "AI Product SEO",
         "tagline": "Product descriptions & SEO automation",
         "nav_login": "Sign In",
-        "page_title": "AI-powered product description & SEO title/tag generator for e-commerce 🚀",
-        "lead": "Enter a product name; AI (or the demo) will generate a title, description, and SEO tags for you.",
+        "page_title": "AI-powered product description & SEO title and tag generator for e-commerce 🚀",
+        "lead": "Enter your product name AI will generate the title description and SEO tags for you.",
         "info_ecom": "E-commerce ready",
         "info_auto": "Auto title & description",
         "info_seo": "SEO & tag generation",
@@ -172,11 +172,11 @@ TRANSLATIONS = {
 
 
     "de": {
-        "app_name": "AI ProduktSEO",
-        "tagline": "Produktbeschreibungen & SEO-Automatisierung",
+        "app_name": "AI Produkt SEO",
+        "tagline": "Produktbeschreibungen & SEO Automatisierung",
         "nav_login": "Anmelden",
-        "page_title": "KI-gestützter Generator für Produktbeschreibung & SEO-Titel/Tags 🚀",
-        "lead": "Produktname eingeben; KI (oder Demo) erzeugt Titel, Beschreibung und SEO-Tags.",
+        "page_title": "KI gestützter Produktbeschreibung & SEO Titel und Tag Generator für E-Commerce 🚀",
+        "lead": "Geben Sie Ihren Produktnamen ein KI erstellt für Sie den Titel die Beschreibung und die SEO Tags.",
         "info_ecom": "E-Commerce-tauglich",
         "info_auto": "Autom. Titel & Beschreibung",
         "info_seo": "SEO & Tag-Erstellung",
@@ -249,11 +249,11 @@ TRANSLATIONS = {
 
 
     "ru": {
-        "app_name": "AI ProductSEO",
-        "tagline": "Описания товаров и SEO-автоматизация",
+        "app_name": "AI Product SEO",
+        "tagline": "Описания товаров и SEO автоматизация",
         "nav_login": "Войти",
-        "page_title": "Генератор описаний и SEO-тегов для e-commerce на базе ИИ 🚀",
-        "lead": "Введите название товара — ИИ (или демо) создаст заголовок, описание и SEO-теги.",
+        "page_title": "AI-поддержка для описания продукта и генерации SEO заголовков и тегов для электронной коммерции 🚀",
+        "lead": "Введите название вашего продукта AI создаст для вас заголовок описание и SEO теги.",
         "info_ecom": "Готово к e-commerce",
         "info_auto": "Авто заголовок и описание",
         "info_seo": "SEO и теги",
