@@ -36,3 +36,13 @@ After clicking the Buy button the customer is redirected to an official online b
 
 ![Language Select](screenshots/Buy-button.png)
 
+
+<br><br>
+
+
+## Get Free Output Button
+
+By clicking the Get Free Output button you can download a .txt file to your computer in four different languages each time containing the same title, description, and SEO tags. This system serves as a demo for you and also helps you gain an understanding of how it works.
+
+![Language Select](screenshots/Get-free-output-button.png)
+
