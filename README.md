@@ -55,3 +55,13 @@ By clicking the Get Free Output button you can download a .txt file to your comp
 After downloading the free output as a .txt file to your computer you can view its contents in the four available languages along with example descriptions. This serves as a preview of how the paid version works. 
 
 ![Product Description Downloaded](screenshots/Product-description-downloaded.png)
+
+
+<br><br>
+
+
+## Generate Order
+
+After completing the payment through the Buy button for your real digital product you enter the product's name under "Product Name"—for example, "Podcast Series". By clicking the Generate button you can then receive the actual AI-generated content of your digital product. The content appears just below the Generate button and in the center of the Copy All button.
+
+![Generate Order](screenshots/Generate-order.png)
