@@ -65,3 +65,8 @@ After downloading the free output as a .txt file to your computer you can view i
 After completing the payment through the Buy button for your real digital product you enter the product's name under "Product Name"—for example, "Podcast Series". By clicking the Generate button you can then receive the actual AI-generated content of your digital product. The content appears just below the Generate button and in the center of the Copy All button.
 
 ![Generate Order](screenshots/Generate-order.png)
+
+
+<br>
+
+**Note:** Once the payment is confirmed through the Merchant of Record system the backend verifies the transaction and sends a request to the AI API to generate the digital product content ensuring a secure and automated workflow.
