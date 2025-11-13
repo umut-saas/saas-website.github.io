@@ -9,7 +9,8 @@ AI SaaS web application for the digital products industry, generating product ti
 - backend.py → Python backend
 
 
-
+<br><br>
 
 
 ## Dashboard
+
