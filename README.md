@@ -71,5 +71,6 @@ After completing the payment through the Buy button for your real digital produc
 
 ## Note
 
-Once the payment is confirmed through the Merchant of Record system the backend verifies the transaction and sends a request to the AI API to generate the digital product content ensuring a secure and automated workflow.
+Once the payment is confirmed through the Merchant of Record system the backend verifies the transaction and sends a request to the AI API to generate the digital product content ensuring a secure and automated workflow. System content is created thanks to AI API.
+
 
