@@ -34,7 +34,7 @@ At the top right of the screen you have the language select and you can choose w
 
 After clicking the Buy button the customer is redirected to an official online banking or payment panel provided by a Merchant of Record where the payment is processed on behalf of the SaaS site owner and the panel displays the owner's banking information.
 
-![Language Select](screenshots/Buy-button.png)
+![Buy Button](screenshots/Buy-button.png)
 
 
 <br><br>
@@ -44,5 +44,14 @@ After clicking the Buy button the customer is redirected to an official online b
 
 By clicking the Get Free Output button you can download a .txt file to your computer in four different languages each time containing the same title, description, and SEO tags. This system serves as a demo for you and also helps you gain an understanding of how it works.
 
-![Language Select](screenshots/Get-free-output-button.png)
+![Get Free Output Button](screenshots/Get-free-output-button.png)
 
+
+<br><br>
+
+
+## Product Description Downloaded
+
+After downloading the free output as a .txt file to your computer you can view its contents in the four available languages along with example descriptions. This serves as a preview of how the paid version works. 
+
+![Product Description Downloaded](screenshots/Product-description-downloaded.png)
