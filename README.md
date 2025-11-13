@@ -8,3 +8,8 @@ AI SaaS web application for the digital products industry, generating product ti
 - script.js → JavaScript functions
 - backend.py → Python backend
 
+
+
+
+
+## Dashboard
